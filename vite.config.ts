@@ -1,10 +1,10 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
-export default defineConfig({
-  base: "/3D-animator/",
-
+export default defineConfig(({ command }) => ({
   plugins: [react()],
+
+  base: command === "build" ? "/3D-animator/" : "/",
 
   server: {
     host: true,
@@ -20,9 +20,11 @@ export default defineConfig({
 
   build: {
     target: "esnext",
-    sourcemap: true,
     outDir: "dist",
     assetsDir: "assets",
-    emptyOutDir: true
+    sourcemap: false,
+    minify: "esbuild",
+    emptyOutDir: true,
+    chunkSizeWarningLimit: 1000
   }
-});
+}));
